@@ -2,7 +2,7 @@
 import { useContext, useState } from 'react';
 import { TodoContext } from '../Context/TodoContext';
 
-const FormComponent = ({setToggle}) => {
+const FormComponent = ({ setToggle }) => {
   const { state, dispatch } = useContext(TodoContext);
   const [toggleMessage, setToggleMessage] = useState(true);
   const [validation, setValidation] = useState(false);
@@ -12,24 +12,18 @@ const FormComponent = ({setToggle}) => {
       date: new Date().toISOString(),
       list: state.field.map((field) => field.value),
     };
-    
-    const validation=state.field.some((field)=>!field.value)
+
+    const validation = state.field.some((field) => !field.value);
     if (validation) {
-      
-      setValidation(validation)
-    }else{
+      setValidation(validation);
+    } else {
       setToggleMessage(false);
       setTimeout(() => {
         dispatch({ type: 'SUBMIT', payload: formData });
         dispatch({ type: 'EMPTY' });
-        setToggle(true)
-        
+        setToggle(true);
       }, 2000);
-
     }
- 
-    
-
   };
 
   return (
@@ -42,7 +36,6 @@ const FormComponent = ({setToggle}) => {
             onSubmit={handleSubmit}
           >
             <div className="inner-input-form">
-
               {state.field.map((list, index) => (
                 <div
                   className="input-container"
@@ -61,26 +54,33 @@ const FormComponent = ({setToggle}) => {
                       })
                     }
                   />
-                  <button
-                    className="toggle-button"
+                  <div className='icon-button'>
+                    
+                  <span
+                    className="material-symbols-outlined"
                     onClick={() => dispatch({ type: 'SUB', payload: index })}
                   >
-                    Delete
-                  </button>
+                    delete
+                  </span>
+                  </div>
                 </div>
               ))}
             </div>
-            {validation && <p style={{ color: 'white' }}>Please fill in all required fields.</p>}
+            {validation && (
+              <p style={{ color: 'white' }}>
+                Please fill in all required fields.
+              </p>
+            )}
             <div className="inner-button-container">
               <button
                 type="button"
-                className="toggle-button"
+                className="toggle-button-form"
                 onClick={() => dispatch({ type: 'ADD' })}
               >
-                Add
+                Add More
               </button>
               <button
-                className="toggle-button"
+                className="toggle-button-form-submit"
                 type="submit"
               >
                 Submit
